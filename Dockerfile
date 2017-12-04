@@ -1,10 +1,15 @@
 FROM ubuntu:16.04
 
 ENV unityFile=unity-editor-5.4.2f2+20161111_amd64.deb
+ENV androidSdkFile=tools_r25.2.2-linux.zip
+
+# This is necessary for unity
+ENV ANDROID_SDK_ROOT=/usr/local/androidSdk/
 
 # Download necessary packages for unity3d
 RUN apt-get update -qq; \
   apt-get install -qq -y \
+  busybox-static \
   gconf-service \
   lib32gcc1 \
   lib32stdc++6 \
@@ -39,6 +44,9 @@ RUN apt-get update -qq; \
   libxrandr2 \
   libxrender1 \
   libxtst6 \
+  nano \
+  openjdk-8-jdk \
+  screen \
   zlib1g \
   debconf \
   npm \
@@ -55,10 +63,19 @@ RUN wget -nv http://download.unity3d.com/download_unity/linux/${unityFile}; \
   dpkg -i ${unityFile}; \
   rm ${unityFile};
   
-# Note: Certificates not used yet  
-#  mkdir -p $HOME/.local/share/unity3d/Certificates/
+# Prepare directories for unity3d:
+RUN mkdir -p $HOME/.local/share/unity3d/Unity; \
+  mkdir -p $HOME/.cache/unity3d;
 
-# ADD CACerts.pem $HOME/.local/share/unity3d/Certificates/
+# über folgenden Befehl koennte man in der Zukunft die license-File aus dem Docker-Repo direkt einspielen:
+# ADD Unity_v5.x.ulf $HOME/.local/share/unity3d/Unity/
+
+# Install Androidsdk with build tools for android-23:
+RUN mkdir -p $ANDROID_SDK_ROOT
+  wget -nv https://dl.google.com/android/repository/${androidSdkFile}; \
+  busybox unzip ${androidSdkFile} -d $ANDROID_SDK_ROOT; \
+  echo y | $ANDROID_SDK_ROOT/tools/android update sdk --no-ui --all --filter android-23,build-tools-23.0.3; \
+  rm ${androidSdkFile};
 
 # Clean up
 RUN rm -rf /tmp/* /var/tmp/*
