@@ -44,6 +44,7 @@ RUN apt-get update -qq; \
   libxrandr2 \
   libxrender1 \
   libxtst6 \
+  lib32z1 \
   nano \
   openjdk-8-jdk \
   screen \
@@ -71,7 +72,7 @@ RUN mkdir -p $HOME/.local/share/unity3d/Unity; \
 # ADD Unity_v5.x.ulf $HOME/.local/share/unity3d/Unity/
 
 # Install Androidsdk with build tools for android-23:
-RUN mkdir -p $ANDROID_SDK_ROOT
+RUN mkdir -p $ANDROID_SDK_ROOT; \
   wget -nv https://dl.google.com/android/repository/${androidSdkFile}; \
   busybox unzip ${androidSdkFile} -d $ANDROID_SDK_ROOT; \
   echo y | $ANDROID_SDK_ROOT/tools/android update sdk --no-ui --all --filter android-23,build-tools-23.0.3; \
