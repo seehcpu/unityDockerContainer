@@ -48,6 +48,7 @@ RUN apt-get update -qq; \
   nano \
   openjdk-8-jdk \
   screen \
+  unzip \
   zlib1g \
   debconf \
   npm \
@@ -74,8 +75,9 @@ RUN mkdir -p $HOME/.local/share/unity3d/Unity; \
 # Install Androidsdk with build tools for android-23:
 RUN mkdir -p $ANDROID_SDK_ROOT; \
   wget -nv https://dl.google.com/android/repository/${androidSdkFile}; \
-  busybox unzip ${androidSdkFile} -d $ANDROID_SDK_ROOT; \
-  echo y | $ANDROID_SDK_ROOT/tools/android update sdk --no-ui --all --filter android-23,build-tools-23.0.3; \
+  unzip ${androidSdkFile} -d $ANDROID_SDK_ROOT; \
+  ( sleep 5 && while [ 1 ]; do sleep 1; echo y; done ) \
+  | $ANDROID_SDK_ROOT/tools/android update sdk --no-ui --all --filter tool,platform-tool,android-23,build-tools-23.0.2; \
   rm ${androidSdkFile};
 
 # Clean up
