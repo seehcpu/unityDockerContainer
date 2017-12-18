@@ -1,6 +1,7 @@
 FROM ubuntu:16.04
 
-ENV unityFile=unity-editor-5.4.2f2+20161111_amd64.deb
+# ENV unityFile=unity-editor-5.4.2f2+20161111_amd64.deb
+ENV unityFile=unity-editor-5.4.3f1-3+20161125_amd64.deb
 ENV androidSdkFile=tools_r25.2.2-linux.zip
 
 # This is necessary for unity
