@@ -3,5 +3,3 @@ __Unity-CI__
 * An environment variable will be used to determine the version of unity to be downloaded 
 * The base image used is ubuntu 16.04
 * The "real" repo is located at https://github.com/seehcpu/unityDockerContainer
-- [ ] Open point?
-[x] closed issue
